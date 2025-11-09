@@ -1,12 +1,13 @@
 import { FaCar, FaLaughBeam } from "react-icons/fa";
+import logo from '../assets/logo.png'
 
 const Navbar = () => {
   return (
     <div className="navbar px-8 py-3 bg-white shadow-lg sticky top-0 z-50">
       {/* Left - Logo & Name */}
       <div className="flex items-center gap-2">
-        <FaCar className="text-[var(--color-primary)] text-2xl" />
-        <h1 className="navbar-brand text-2xl font-bold text-[var(--color-primary)] tracking-wide">
+        <img className="w-20 h-20"  src={logo} alt="logo" />
+        <h1 className="navbar-brand text-2xl font-bold text-[var(--color-primary)] tracking-wide -p-3">
           GARIWALA
         </h1>
       </div>
