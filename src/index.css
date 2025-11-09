@@ -1,269 +1,141 @@
 @import "tailwindcss";
-@plugin "daisyui";
 
-/* ============================================
-   GARIWALA - Custom Dark Theme Configuration
-   ============================================ */
-
-@theme {
-  /* Custom Color Palette */
-  --color-primary: #00d4ff; /* Vibrant Cyan */
-  --color-primary-dark: #00a8cc;
-  --color-secondary: #ff6b35; /* Energetic Orange */
-  --color-accent: #ffd23f; /* Golden Yellow */
-  --color-success: #10b981; /* Green */
-  --color-danger: #ef4444; /* Red */
-  --color-warning: #f59e0b; /* Amber */
-  
-  /* Dark Background Gradients */
-  --color-bg-primary: #0a0e1a; /* Deep Dark Blue */
-  --color-bg-secondary: #121827; /* Slightly Lighter */
-  --color-bg-card: #1a2332; /* Card Background */
-  --color-bg-hover: #222b3d; /* Hover State */
-  
-  /* Text Colors */
-  --color-text-primary: #ffffff;
-  --color-text-secondary: #94a3b8;
-  --color-text-muted: #64748b;
-  
-  /* Border Colors */
-  --color-border: #2d3748;
-  --color-border-light: #374151;
+/* ==============================
+   🚗 GARIWALA CUSTOM LIGHT THEME
+   ============================== */
+@plugin "daisyui" {
+  themes: light --default;
 }
 
-/* ============================================
-   DaisyUI Theme Override
-   ============================================ */
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
 
-@layer base {
-  :root {
-    color-scheme: dark;
-  }
-  
-  body {
-    @apply bg-gradient-to-br from-[#0a0e1a] via-[#121827] to-[#0f1419];
-    @apply text-white;
-    @apply font-sans;
-  }
+  /* 🎨 Base Vibrant Colors */
+  --color-primary: #007bff;       /* Electric Blue */
+  --color-secondary: #ff3b30;     /* Sporty Red */
+  --color-accent: #00c853;        /* Vivid Green */
+  --color-neutral: #ffffff;       /* Clean White Background */
+  --color-base-100: #f7f8fa;      /* Subtle Light Gray */
+  --color-info: #17a2b8;
+  --color-success: #28a745;
+  --color-warning: #ffcc00;
+  --color-error: #e63946;
+
+  /* ✨ Custom Colors */
+  --color-hover: #0096ff;         /* Glow Blue Hover */
+  --color-dark: #101820;          /* Jet Black Text */
+  --color-light: #ffffff;
+  --color-gray: #e0e0e0;
 }
 
-/* ============================================
-   Custom Component Styles
-   ============================================ */
+/* ==============================
+   🌍 Global Styles
+   ============================== */
 
-/* Navbar Styles */
-.navbar-custom {
-  @apply bg-[#1a2332]/95 backdrop-blur-lg border-b border-[#2d3748];
-  @apply shadow-lg shadow-black/20;
-  transition: all 0.3s ease;
+body {
+  @apply bg-[var(--color-neutral)] text-[var(--color-dark)] font-sans transition-colors duration-300;
 }
 
-.navbar-custom:hover {
-  @apply shadow-xl shadow-black/30;
-}
-
-/* Button Styles */
-.btn-primary-custom {
-  @apply bg-gradient-to-r from-[#00d4ff] to-[#0ea5e9];
-  @apply text-[#0a0e1a] font-bold;
-  @apply rounded-lg px-6 py-3;
-  @apply shadow-lg shadow-[#00d4ff]/30;
-  @apply hover:shadow-xl hover:shadow-[#00d4ff]/50;
-  @apply hover:scale-105;
-  @apply transition-all duration-300;
-  @apply border-none;
-}
-
-.btn-secondary-custom {
-  @apply bg-gradient-to-r from-[#ff6b35] to-[#f97316];
-  @apply text-white font-bold;
-  @apply rounded-lg px-6 py-3;
-  @apply shadow-lg shadow-[#ff6b35]/30;
-  @apply hover:shadow-xl hover:shadow-[#ff6b35]/50;
-  @apply hover:scale-105;
-  @apply transition-all duration-300;
-  @apply border-none;
-}
-
-.btn-outline-custom {
-  @apply bg-transparent border-2 border-[#00d4ff];
-  @apply text-[#00d4ff] font-bold;
-  @apply rounded-lg px-6 py-3;
-  @apply hover:bg-[#00d4ff] hover:text-[#0a0e1a];
-  @apply hover:shadow-lg hover:shadow-[#00d4ff]/50;
-  @apply transition-all duration-300;
-}
-
-/* Card Styles */
-.card-custom {
-  @apply bg-[#1a2332] rounded-xl;
-  @apply border border-[#2d3748];
-  @apply shadow-xl shadow-black/30;
-  @apply hover:shadow-2xl hover:shadow-black/40;
-  @apply hover:border-[#00d4ff]/30;
-  @apply hover:-translate-y-2;
-  @apply transition-all duration-300;
-  @apply overflow-hidden;
-}
-
-.card-custom-glow {
-  @apply card-custom;
-  @apply hover:shadow-[0_0_30px_rgba(0,212,255,0.3)];
-}
-
-/* Input Styles */
-.input-custom {
-  @apply bg-[#121827] border-2 border-[#2d3748];
-  @apply text-white placeholder-[#64748b];
-  @apply rounded-lg px-4 py-3;
-  @apply focus:border-[#00d4ff] focus:outline-none;
-  @apply focus:shadow-lg focus:shadow-[#00d4ff]/20;
-  @apply transition-all duration-300;
-}
-
-/* Badge Styles */
-.badge-available {
-  @apply bg-gradient-to-r from-[#10b981] to-[#059669];
-  @apply text-white font-semibold;
-  @apply px-3 py-1 rounded-full;
-  @apply shadow-lg shadow-[#10b981]/30;
-}
-
-.badge-booked {
-  @apply bg-gradient-to-r from-[#ef4444] to-[#dc2626];
-  @apply text-white font-semibold;
-  @apply px-3 py-1 rounded-full;
-  @apply shadow-lg shadow-[#ef4444]/30;
-}
-
-/* Gradient Text */
-.text-gradient {
-  @apply bg-gradient-to-r from-[#00d4ff] via-[#0ea5e9] to-[#3b82f6];
-  @apply bg-clip-text text-transparent;
-  @apply font-bold;
-}
-
-.text-gradient-secondary {
-  @apply bg-gradient-to-r from-[#ff6b35] via-[#f97316] to-[#ffd23f];
-  @apply bg-clip-text text-transparent;
-  @apply font-bold;
-}
-
-/* Hover Glow Effects */
-.hover-glow-cyan:hover {
-  @apply shadow-[0_0_20px_rgba(0,212,255,0.6)];
-  @apply border-[#00d4ff];
-}
-
-.hover-glow-orange:hover {
-  @apply shadow-[0_0_20px_rgba(255,107,53,0.6)];
-  @apply border-[#ff6b35];
-}
-
-/* Loading Spinner */
-.loading-spinner {
-  @apply animate-spin rounded-full;
-  @apply border-4 border-[#2d3748];
-  @apply border-t-[#00d4ff];
-  @apply w-12 h-12;
-}
-
-/* Custom Scrollbar */
+/* 🖱️ Scrollbar */
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 8px;
 }
-
-::-webkit-scrollbar-track {
-  @apply bg-[#0a0e1a];
-}
-
 ::-webkit-scrollbar-thumb {
-  @apply bg-gradient-to-b from-[#00d4ff] to-[#0ea5e9];
-  @apply rounded-full;
+  background: var(--color-primary);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-gray);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-gradient-to-b from-[#0ea5e9] to-[#00d4ff];
+/* ==============================
+   🚘 Navbar
+   ============================== */
+
+.navbar {
+  @apply bg-[var(--color-light)] text-[var(--color-dark)] flex justify-between items-center px-8 py-3 shadow-md sticky top-0 z-50;
+  border-bottom: 2px solid var(--color-primary);
 }
 
-/* Smooth Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* 🔝 Top Bar */
+.top-bar {
+  @apply bg-[var(--color-base-100)] text-[var(--color-dark)] text-sm flex justify-between items-center px-6 py-1 border-b border-[var(--color-gray)];
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.6s ease-out;
+/* 🔔 Deal Marquee */
+.deal-marquee {
+  @apply text-[var(--color-primary)] font-medium tracking-wide;
 }
 
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+/* 🅰️ Brand Logo */
+.navbar-brand {
+  @apply text-[var(--color-primary)] font-bold text-2xl tracking-wide transition-colors duration-300 flex items-center gap-2;
+}
+.navbar-brand:hover {
+  @apply text-[var(--color-hover)];
 }
 
-.animate-slide-in-left {
-  animation: slideInLeft 0.6s ease-out;
-}
-
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(0, 212, 255, 0.8);
-  }
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-/* Section Styles */
-.section-container {
-  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16;
-}
-
-/* Link Styles */
+/* 📍 Nav Links */
 .nav-link {
-  @apply text-[#94a3b8] hover:text-[#00d4ff];
-  @apply font-medium transition-all duration-300;
-  @apply relative;
+  @apply relative text-[var(--color-dark)] font-medium transition-all duration-300 hover:text-[var(--color-primary)];
 }
-
 .nav-link::after {
-  content: '';
-  @apply absolute bottom-0 left-0;
-  @apply w-0 h-0.5 bg-[#00d4ff];
-  @apply transition-all duration-300;
+  content: "";
+  @apply absolute bottom-[-3px] left-0 w-0 h-[2px] bg-[var(--color-primary)] transition-all duration-300;
 }
-
 .nav-link:hover::after {
-  @apply w-full;
+  width: 100%;
 }
 
-.nav-link.active {
-  @apply text-[#00d4ff];
+/* 🔘 Custom Buttons */
+.btn-custom {
+  @apply bg-[var(--color-primary)] text-white font-semibold rounded-md px-4 py-2 border-none transition-all duration-300;
+}
+.btn-custom:hover {
+  @apply bg-[var(--color-hover)] scale-105 shadow-lg;
 }
 
-.nav-link.active::after {
-  @apply w-full;
+/* 😂 Funny Icon */
+.fun-icon {
+  @apply text-[var(--color-secondary)] text-2xl cursor-pointer transition-transform duration-500;
+}
+.fun-icon:hover {
+  transform: rotate(15deg) scale(1.3);
+  filter: drop-shadow(0 0 10px var(--color-secondary));
 }
 
-/* Footer Styles */
-.footer-custom {
-  @apply bg-gradient-to-br from-[#0a0e1a] to-[#121827];
-  @apply border-t border-[#2d3748];
-  @apply shadow-[0_-10px_30px_rgba(0,0,0,0.3)];
+/* ==============================
+   ✨ DaisyUI Overrides
+   ============================== */
+
+/* 🟦 Gradient Primary Button */
+.btn-primary {
+  @apply bg-gradient-to-r from-[#007bff] to-[#00c6ff] border-none text-white font-semibold shadow-md;
+}
+.btn-primary:hover {
+  @apply scale-105 opacity-90;
+}
+
+/* 🟥 Gradient Secondary Button */
+.btn-secondary {
+  @apply bg-gradient-to-r from-[#ff3b30] to-[#ff5e62] border-none text-white font-semibold shadow-md;
+}
+.btn-secondary:hover {
+  @apply scale-105 opacity-90;
+}
+
+/* ✅ Success */
+.btn-success {
+  @apply bg-gradient-to-r from-[#00c853] to-[#00e676] text-white;
+}
+
+/* 💡 Card Shadow Style */
+.card {
+  @apply bg-[var(--color-light)] shadow-lg hover:shadow-2xl transition-shadow duration-300;
+}
+
+/* 🧭 Footer */
+.footer {
+  @apply bg-[var(--color-base-100)] text-[var(--color-dark)] text-center py-6 mt-10 border-t border-[var(--color-gray)];
 }

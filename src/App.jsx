@@ -1,17 +1,25 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+
 import "./App.css";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import { Outlet } from "react-router";
 
 function App() {
-  const [count, setCount] = useState(0);
 
   return (
-    <>
-      <div class="navbar bg-base-100 shadow-sm">
-        <a class="btn btn-ghost text-xl">daisyUI</a>
-      </div>
-    </>
+     <div className="min-h-screen flex flex-col">
+      {/* Navbar */}
+      <Navbar></Navbar>
+      
+      {/* Main Content - This will render the page components */}
+      <main className="flex-grow">
+        <Outlet></Outlet>
+      </main>
+      
+      {/* Footer */}
+      <Footer></Footer>
+    </div>
   );
 }
 
