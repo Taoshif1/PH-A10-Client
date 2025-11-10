@@ -6,12 +6,6 @@ import logo from '../assets/logo.png';
 const Navbar = () => {
   const [user, setUser] = useState(null);
   
-  // Mock user for testing (uncomment to see logged-in state)
-  // const user = {
-  //   displayName: "John Doe",
-  //   email: "john@example.com",
-  //   photoURL: "https://i.pravatar.cc/150?img=12"
-  // };
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -101,9 +95,12 @@ const Navbar = () => {
         {/* Logo & Brand Name */}
         <Link to="/" className="flex items-center gap-2 ml-2">
           <img className="w-16 h-16 lg:w-20 lg:h-20" src={logo} alt="GARIWALA Logo" />
-          <h1 className="navbar-brand text-xl lg:text-2xl font-bold">
+          <div className="">
+            <h1 className="navbar-brand text-xl lg:text-2xl font-bold">
             GARIWALA
           </h1>
+          <p className="text-xs text-gray-500 font-semibold">Premium Car Rentals</p>
+          </div>
         </Link>
       </div>
 
