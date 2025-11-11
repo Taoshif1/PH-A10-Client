@@ -22,8 +22,9 @@ const Home = () => {
   const fetchFeaturedCars = async () => {
     try {
       // Replace with your actual API endpoint
-      const response = await fetch('http://localhost:3000/api/cars/featured');
+      const response = await fetch('https://gariwala-server.vercel.app/cars/featured');
       const data = await response.json();
+      // console.log(data);
       setFeaturedCars(data.cars || []);
     } catch (error) {
       console.error('Error fetching cars:', error);
