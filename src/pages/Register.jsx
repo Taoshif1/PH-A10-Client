@@ -1,16 +1,24 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import toast from 'react-hot-toast';
-import { FaGoogle, FaEnvelope, FaLock, FaUser, FaImage, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
+import {
+  FaGoogle,
+  FaEnvelope,
+  FaLock,
+  FaUser,
+  FaImage,
+  FaEye,
+  FaEyeSlash,
+} from "react-icons/fa";
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    photoURL: '',
-    password: '',
-    confirmPassword: ''
+    name: "",
+    email: "",
+    photoURL: "",
+    password: "",
+    confirmPassword: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -22,23 +30,23 @@ const Register = () => {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const validatePassword = (password) => {
     const errors = [];
-    
+
     if (password.length < 6) {
-      errors.push('Password must be at least 6 characters long');
+      errors.push("Password must be at least 6 characters long");
     }
     if (!/[A-Z]/.test(password)) {
-      errors.push('Password must contain at least one uppercase letter');
+      errors.push("Password must contain at least one uppercase letter");
     }
     if (!/[a-z]/.test(password)) {
-      errors.push('Password must contain at least one lowercase letter');
+      errors.push("Password must contain at least one lowercase letter");
     }
-    
+
     return errors;
   };
 
@@ -47,23 +55,23 @@ const Register = () => {
 
     // Validation
     if (!formData.name.trim()) {
-      toast.error('Please enter your name!');
+      toast.error("Please enter your name!");
       return;
     }
 
     if (!formData.email.trim()) {
-      toast.error('Please enter your email!');
+      toast.error("Please enter your email!");
       return;
     }
 
     const passwordErrors = validatePassword(formData.password);
     if (passwordErrors.length > 0) {
-      passwordErrors.forEach(error => toast.error(error));
+      passwordErrors.forEach((error) => toast.error(error));
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      toast.error('Passwords do not match!');
+      toast.error("Passwords do not match!");
       return;
     }
 
@@ -73,22 +81,22 @@ const Register = () => {
         formData.email,
         formData.password,
         formData.name,
-        formData.photoURL || 'https://i.pravatar.cc/150?img=68'
+        formData.photoURL || "https://i.pravatar.cc/150?img=68"
       );
-      
-      toast.success('🎉 Account created successfully! Welcome to GARIWALA!');
-      navigate('/');
+
+      toast.success("🎉 Account created successfully! Welcome to GARIWALA!");
+      navigate("/");
     } catch (error) {
-      console.error('Registration error:', error);
-      
-      if (error.code === 'auth/email-already-in-use') {
-        toast.error('Email already registered! Please login.');
-      } else if (error.code === 'auth/invalid-email') {
-        toast.error('Invalid email format!');
-      } else if (error.code === 'auth/weak-password') {
-        toast.error('Password is too weak!');
+      console.error("Registration error:", error);
+
+      if (error.code === "auth/email-already-in-use") {
+        toast.error("Email already registered! Please login.");
+      } else if (error.code === "auth/invalid-email") {
+        toast.error("Invalid email format!");
+      } else if (error.code === "auth/weak-password") {
+        toast.error("Password is too weak!");
       } else {
-        toast.error('Registration failed! ' + error.message);
+        toast.error("Registration failed! " + error.message);
       }
     } finally {
       setLoading(false);
@@ -99,15 +107,15 @@ const Register = () => {
     setLoading(true);
     try {
       await googleSignIn();
-      toast.success('🎉 Account created successfully! Welcome!');
-      navigate('/');
+      toast.success("🎉 Account created successfully! Welcome!");
+      navigate("/");
     } catch (error) {
-      console.error('Google signup error:', error);
-      
-      if (error.code === 'auth/popup-closed-by-user') {
-        toast.error('Signup cancelled!');
+      console.error("Google signup error:", error);
+
+      if (error.code === "auth/popup-closed-by-user") {
+        toast.error("Signup cancelled!");
       } else {
-        toast.error('Google signup failed: ' + error.message);
+        toast.error("Google signup failed: " + error.message);
       }
     } finally {
       setLoading(false);
@@ -117,7 +125,6 @@ const Register = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full">
-        
         {/* Header */}
         <div className="text-center mb-8 animate-fade-in">
           <h2 className="text-4xl font-bold text-gradient-secondary mb-2">
@@ -128,7 +135,6 @@ const Register = () => {
 
         {/* Registration Card */}
         <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-          
           {/* Google Signup Button */}
           <button
             onClick={handleGoogleSignup}
@@ -136,7 +142,9 @@ const Register = () => {
             className="w-full btn btn-outline border-2 border-gray-300 hover:border-purple-500 hover:bg-purple-50 flex items-center justify-center gap-3 mb-6"
           >
             <FaGoogle className="text-xl text-red-500" />
-            <span className="font-semibold text-gray-700">Sign up with Google</span>
+            <span className="font-semibold text-gray-700">
+              Sign up with Google
+            </span>
           </button>
 
           {/* Divider */}
@@ -145,13 +153,14 @@ const Register = () => {
               <div className="w-full border-t border-gray-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white text-gray-500 font-medium">Or sign up with email</span>
+              <span className="px-4 bg-white text-gray-500 font-medium">
+                Or sign up with email
+              </span>
             </div>
           </div>
 
           {/* Registration Form */}
           <form onSubmit={handleRegister} className="space-y-4">
-            
             {/* Name Input */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -166,8 +175,8 @@ const Register = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="John Doe"
-                  className="input input-bordered w-full pl-11 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  placeholder="Gari Wala"
+                  className="input input-bordered w-full pl-5 focus:outline-none focus:ring-2 focus:ring-purple-500"
                   required
                 />
               </div>
@@ -187,8 +196,8 @@ const Register = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="john@example.com"
-                  className="input input-bordered w-full pl-11 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  placeholder="gariwala@example.com"
+                  className="input input-bordered w-full pl-5 focus:outline-none focus:ring-2 focus:ring-purple-500"
                   required
                 />
               </div>
@@ -197,7 +206,8 @@ const Register = () => {
             {/* Photo URL Input */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Photo URL <span className="text-gray-400 text-xs">(Optional)</span>
+                Photo URL{" "}
+                <span className="text-gray-400 text-xs">(Optional)</span>
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -209,7 +219,7 @@ const Register = () => {
                   value={formData.photoURL}
                   onChange={handleChange}
                   placeholder="https://example.com/photo.jpg"
-                  className="input input-bordered w-full pl-11 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="input input-bordered w-full pl-5 focus:outline-none focus:ring-2 focus:ring-purple-500"
                 />
               </div>
             </div>
@@ -224,12 +234,12 @@ const Register = () => {
                   <FaLock className="text-gray-400" />
                 </div>
                 <input
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
                   placeholder="Min. 6 characters"
-                  className="input input-bordered w-full pl-11 pr-11 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="input input-bordered w-full pl-5 pr-11 focus:outline-none focus:ring-2 focus:ring-purple-500"
                   required
                 />
                 <button
@@ -256,12 +266,12 @@ const Register = () => {
                   <FaLock className="text-gray-400" />
                 </div>
                 <input
-                  type={showConfirmPassword ? 'text' : 'password'}
+                  type={showConfirmPassword ? "text" : "password"}
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   placeholder="Re-enter password"
-                  className="input input-bordered w-full pl-11 pr-11 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="input input-bordered w-full pl-5 pr-11 focus:outline-none focus:ring-2 focus:ring-purple-500"
                   required
                 />
                 <button
@@ -280,7 +290,9 @@ const Register = () => {
 
             {/* Password Requirements */}
             <div className="bg-blue-50 rounded-lg p-3 border border-blue-200">
-              <p className="text-xs font-semibold text-blue-800 mb-2">Password Requirements:</p>
+              <p className="text-xs font-semibold text-blue-800 mb-2">
+                Password Requirements:
+              </p>
               <ul className="text-xs text-blue-700 space-y-1">
                 <li>✓ At least 6 characters long</li>
                 <li>✓ One uppercase letter (A-Z)</li>
@@ -297,7 +309,7 @@ const Register = () => {
               {loading ? (
                 <span className="loading loading-spinner loading-md"></span>
               ) : (
-                'Create Account'
+                "Create Account"
               )}
             </button>
           </form>
@@ -305,7 +317,7 @@ const Register = () => {
           {/* Login Link */}
           <div className="mt-6 text-center">
             <p className="text-gray-600">
-              Already have an account?{' '}
+              Already have an account?{" "}
               <Link
                 to="/login"
                 className="text-purple-600 hover:text-purple-700 font-semibold hover:underline"
