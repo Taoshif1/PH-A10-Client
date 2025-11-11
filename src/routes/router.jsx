@@ -9,30 +9,28 @@ import ErrorPage from "../pages/ErrorPage";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <App></App>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       { 
         path: "/", 
-        element: <Home /> 
+        element: <Home></Home>
         },
       { 
         path: "/login", 
-        element: <Login /> 
+        element: <Login></Login> 
     },
       { 
         path: "/dashboard", 
         element: <PrivateRoute>
-                    <Dashboard />
+                    <Dashboard></Dashboard>
                 </PrivateRoute> 
       },
 
     ],
     
   },
-  {
-        path: "*",
-        element: <ErrorPage></ErrorPage>
-}
+
 ]);
 
 export default router;

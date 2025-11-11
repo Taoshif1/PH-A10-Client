@@ -1,5 +1,5 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { FaHome, FaExclamationTriangle } from 'react-icons/fa';
+import { Link, useNavigate } from "react-router-dom";
+import { FaHome, FaExclamationTriangle } from "react-icons/fa";
 
 const ErrorPage = () => {
   const navigate = useNavigate();
@@ -7,7 +7,6 @@ const ErrorPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 via-orange-50 to-yellow-50 flex items-center justify-center px-4">
       <div className="text-center max-w-2xl">
-        
         {/* Animated 404 */}
         <div className="mb-8 animate-bounce-slow">
           <h1 className="text-[150px] md:text-[200px] font-bold text-gradient-secondary leading-none">
@@ -25,8 +24,8 @@ const ErrorPage = () => {
           Oops! Page Not Found
         </h2>
         <p className="text-lg text-gray-600 mb-8">
-          The page you're looking for doesn't exist or has been moved.
-          Let's get you back on track!
+          The page you're looking for doesn't exist or has been moved. Let's get
+          you back on track!
         </p>
 
         {/* Action Buttons */}
@@ -37,7 +36,7 @@ const ErrorPage = () => {
               Back to Home
             </button>
           </Link>
-          <button 
+          <button
             onClick={() => navigate(-1)}
             className="btn btn-outline border-2 border-gray-300 hover:border-blue-500 px-8"
           >
@@ -46,9 +45,7 @@ const ErrorPage = () => {
         </div>
 
         {/* Fun Animation */}
-        <div className="mt-12 text-6xl animate-bounce-slow">
-          🚗💨
-        </div>
+        <div className="mt-12 text-6xl animate-bounce-slow">🚗💨</div>
       </div>
     </div>
   );
