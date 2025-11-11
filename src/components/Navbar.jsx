@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Link, NavLink } from 'react-router';
+import { Link, NavLink } from 'react-router-dom';
 import { FaLaughBeam } from 'react-icons/fa';
 import logo from '../assets/logo.png';
-// import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../context/AuthProvider';
+
 
 const Navbar = () => {
-  const [user, setUser] = useState(null);
+  const { user, logOut } = useAuth();
   
 
   const navLinks = [
@@ -16,9 +17,14 @@ const Navbar = () => {
     { name: 'My Bookings', path: '/my-bookings', private: true },
   ];
 
-  const handleLogout = () => {
-    setUser(null);
-  };
+  const handleLogout = async () => {
+  try {
+    await logOut();
+    console.log("User logged out!");
+  } catch (err) {
+    console.error("Logout failed:", err);
+  }
+};
 
   return (
     <div className="navbar bg-white shadow-lg sticky top-0 z-50 px-4 lg:px-8">

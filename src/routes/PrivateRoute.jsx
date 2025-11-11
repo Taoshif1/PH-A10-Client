@@ -1,5 +1,5 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; // Import your custom auth hook
+import { useAuth } from '../context/AuthProvider';
 import PropTypes from 'prop-types';
 
 const PrivateRoute = ({ children }) => {
