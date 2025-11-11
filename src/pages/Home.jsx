@@ -351,21 +351,21 @@ const Home = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             {
-              name: 'Ahmed Hassan',
+              name: 'Zhankar Hassan',
               role: 'Business Owner',
               image: 'https://i.pravatar.cc/150?img=12',
               rating: 5,
               text: 'Exceptional service! Booked a BMW for my business trip. The car was pristine!'
             },
             {
-              name: 'Fatima Rahman',
+              name: 'Mahafuza Moon',
               role: 'Travel Enthusiast',
               image: 'https://i.pravatar.cc/150?img=45',
               rating: 5,
               text: 'Perfect for my family vacation! Great selection of SUVs.'
             },
             {
-              name: 'Karim Abdullah',
+              name: 'Gazi Taoshif',
               role: 'Photographer',
               image: 'https://i.pravatar.cc/150?img=33',
               rating: 5,
