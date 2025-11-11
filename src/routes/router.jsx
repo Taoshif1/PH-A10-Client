@@ -4,6 +4,7 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
 import PrivateRoute from "./PrivateRoute";
+import ErrorPage from "../pages/ErrorPage";
 
 const router = createBrowserRouter([
   {
@@ -24,8 +25,14 @@ const router = createBrowserRouter([
                     <Dashboard />
                 </PrivateRoute> 
       },
+
     ],
+    
   },
+  {
+        path: "*",
+        element: <ErrorPage></ErrorPage>
+}
 ]);
 
 export default router;

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { FaLaughBeam } from 'react-icons/fa';
 import logo from '../assets/logo.png';
-import { useAuth } from '../context/AuthProvider';
+import { useAuth } from '../context/AuthContext';
 
 
 const Navbar = () => {

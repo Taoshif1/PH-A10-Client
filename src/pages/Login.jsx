@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../context/AuthProvider';
+import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 import { FaGoogle, FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
+
 
 const Login = () => {
   const [email, setEmail] = useState('');
