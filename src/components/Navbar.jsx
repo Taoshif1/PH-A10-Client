@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, NavLink } from 'react-router';
 import { FaLaughBeam } from 'react-icons/fa';
 import logo from '../assets/logo.png';
+// import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
