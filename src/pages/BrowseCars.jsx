@@ -1,105 +1,92 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { FaCarSide } from "react-icons/fa";
 
 const BrowseCars = () => {
   const [cars, setCars] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
-  const [sort, setSort] = useState("");
-  const [category, setCategory] = useState("all");
+  const navigate = useNavigate();
 
-  const baseURL = "https://gariwala-server-7ob70ngzp-taoshifs-projects.vercel.app"; 
-  // or http://localhost:3000 if testing locally
-
+  // Fetch available cars
   useEffect(() => {
-    fetchCars();
-  }, [search, sort, category]);
+    const fetchCars = async () => {
+      try {
+        const res = await fetch("https://gariwala-server.vercel.app/cars"); // ✅ your live API
+        const data = await res.json();
 
-  const fetchCars = async () => {
-    try {
-      setLoading(true);
-      const res = await axios.get(`${baseURL}/cars`, {
-        params: { search, sort, category },
-      });
-      setCars(res.data.cars || []);
-    } catch (err) {
-      console.error("Error fetching cars:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+        // Some cars may have "image" not "images"
+        const availableCars =
+          data.cars?.filter((car) => car.status === "available") || [];
+
+        // Normalize image property
+        const formattedCars = availableCars.map((car) => ({
+          ...car,
+          images: car.images?.length
+            ? car.images
+            : [car.image], // fallback if only "image" exists
+        }));
+
+        console.log("Available Cars ->", formattedCars);
+        setCars(formattedCars);
+      } catch (err) {
+        console.error("Failed to fetch cars:", err);
+      }
+    };
+    fetchCars();
+  }, []);
 
   return (
-    <div className="min-h-screen bg-base-200 py-10 px-4">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-center mb-8">🚗 Browse Cars</h1>
+    <div className="max-w-7xl mx-auto px-4 py-10">
+      <h1 className="text-3xl font-bold text-center mb-2 flex items-center justify-center gap-2">
+        <FaCarSide /> Browse Cars
+      </h1>
+      <p className="text-center text-gray-600 mb-8">
+        Showing <span className="font-semibold">{cars.length}</span> available car
+        {cars.length !== 1 ? "s" : ""}
+      </p>
 
-        {/* Filters */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
-          <input
-            type="text"
-            placeholder="Search cars..."
-            className="input input-bordered w-full md:w-1/3"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-
-          <select
-            className="select select-bordered w-full md:w-1/4"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-          >
-            <option value="all">All Categories</option>
-            <option value="SUV">SUV</option>
-            <option value="Sedan">Sedan</option>
-            <option value="Hatchback">Hatchback</option>
-            <option value="Luxury">Luxury</option>
-          </select>
-
-          <select
-            className="select select-bordered w-full md:w-1/4"
-            value={sort}
-            onChange={(e) => setSort(e.target.value)}
-          >
-            <option value="">Sort by</option>
-            <option value="price-low">Price: Low → High</option>
-            <option value="price-high">Price: High → Low</option>
-            <option value="rating">Top Rated</option>
-          </select>
-        </div>
-
-        {/* Cars Grid */}
-        {loading ? (
-          <div className="text-center py-10 text-lg font-semibold">Loading cars...</div>
-        ) : cars.length === 0 ? (
-          <div className="text-center py-10 text-lg font-semibold text-error">
-            No cars found 😢
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {cars.map((car) => (
-              <div key={car._id} className="card bg-base-100 shadow-xl">
-                <figure>
-                  <img
-                    src={car.image}
-                    alt={car.name}
-                    className="h-48 w-full object-cover"
-                  />
-                </figure>
-                <div className="card-body">
-                  <h2 className="card-title">{car.name}</h2>
-                  <p className="text-sm text-gray-600">{car.category}</p>
-                  <p className="font-semibold text-primary">${car.price} / day</p>
-                  <p className="text-yellow-500">⭐ {car.rating || 4.5}</p>
-                  <div className="card-actions justify-end mt-2">
-                    <button className="btn btn-primary btn-sm">Book Now</button>
-                  </div>
-                </div>
+      {cars.length === 0 ? (
+        <p className="text-center text-gray-500">No available cars found 😢</p>
+      ) : (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {cars.map((car) => (
+            <div
+              key={car._id}
+              className="bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-[1.03] transition duration-300"
+            >
+              {/* Car Image */}
+              <div className="relative">
+                <img
+                  src={car.images?.[0] || "https://via.placeholder.com/400x250"}
+                  alt={car.name}
+                  className="w-full h-56 object-cover"
+                />
+                <span className="absolute top-3 left-3 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium shadow-md">
+                  {car.category || "General"}
+                </span>
               </div>
-            ))}
-          </div>
-        )}
-      </div>
+
+              {/* Car Info */}
+              <div className="p-4">
+                <h2 className="text-xl font-semibold mb-1">{car.name}</h2>
+                <p className="text-gray-600 text-sm mb-2">
+                  {car.description?.slice(0, 60)}...
+                </p>
+                <p className="font-medium text-lg mt-1">
+                  ৳{car.price}/day
+                </p>
+
+                {/* Book Now Button */}
+                <button
+                  onClick={() => navigate(`/my-bookings?id=${car._id}`)}
+                  className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+                >
+                  Book Now
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
