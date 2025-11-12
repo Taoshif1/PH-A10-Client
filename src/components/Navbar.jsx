@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { FaLaughBeam } from "react-icons/fa";
 import logo from "../assets/logo.png";
 import { useAuth } from "../context/AuthContext";
+import ThemeToggle from "./ThemeToggle";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -153,13 +154,10 @@ const Navbar = () => {
         </ul>
       </div>
 
-      {/* NAVBAR END - Login Button & Fun Icon */}
-      <div className="navbar-end gap-3">
-        {/* Fun Icon */}
-        <FaLaughBeam
-          className="fun-icon hidden sm:block"
-          title="Feeling Lucky? 🎉"
-        />
+      {/* NAVBAR END - Login Button & ThemeToggle */}
+      <div className="navbar-end gap-3 ">
+        {/* ThemeToggle */}
+        <ThemeToggle />
 
         {/* Login Button or User Dropdown */}
         {!user ? (
@@ -204,7 +202,7 @@ const Navbar = () => {
               <li>
                 <Link to="/my-listings" className="justify-between">
                   My Listings
-                  <span className="badge badge-sm badge-primary">3</span>
+                  <span className="badge badge-sm badge-primary">2</span>
                 </Link>
               </li>
               <li>

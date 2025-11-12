@@ -4,11 +4,17 @@ import { FaCarAlt, FaTrashAlt } from "react-icons/fa";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import { useLocation } from "react-router";
 
 const MyBookings = () => {
   const { user } = useContext(AuthContext);
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const location = useLocation();
+  const car = location.state?.car; // auto-filled car data
+
+  console.log("Car to book:", car);
 
   useEffect(() => {
     const fetchBookings = async () => {

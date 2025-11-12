@@ -11,6 +11,7 @@ import MyListings from "../pages/MyListings";
 import MyBookings from "../pages/MyBookings";
 import BrowseCars from "../pages/BrowseCars";
 import BookCar from "../pages/BookCar";
+import CarDetails from "../pages/CarDetails";
 
 const router = createBrowserRouter([
   {
@@ -68,12 +69,16 @@ const router = createBrowserRouter([
       },
       {
         path: "/book/:id",
-        element: 
+        element: (
           <PrivateRoute>
             <BookCar />
           </PrivateRoute>
+        ),
       },
-
+      {
+        path: "/car/:id",
+        element: <CarDetails />,
+      },
     ],
   },
 ]);

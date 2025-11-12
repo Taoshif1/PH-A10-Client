@@ -287,7 +287,7 @@ const Home = () => {
                 </div>
                 <div className="flex items-center justify-between pt-4 border-t">
                   <div>
-                    <span className="text-3xl font-bold text-gradient">${car.price}</span>
+                    <span className="text-3xl font-bold text-gradient">{car.price}$</span>
                     <span className="text-gray-600">/day</span>
                   </div>
                   <Link to={`/car/${car._id}`}>
@@ -404,7 +404,7 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {featuredCars.filter(car => car.rating >= 4.7).slice(0, 4).map((car) => (
+            {featuredCars.filter(car => car.rating >= 4.6).slice(0, 4).map((car) => (
               <div key={car._id} className="card card-side bg-white shadow-xl hover:shadow-2xl transition-all">
                 <figure className="w-1/3">
                   <img src={car.image} alt={car.name} className="w-full h-full object-cover" />
@@ -414,7 +414,7 @@ const Home = () => {
                   <p>{car.model} • {car.location}</p>
                   <div className="card-actions justify-end items-center">
                     <span className="text-2xl font-bold text-gradient">{car.price}$/day</span>
-                    <Link to='/error-page' className="btn btn-primary btn-sm">Book Now</Link>
+                    <Link to={`/car/${car._id}`} className="btn btn-primary btn-sm">Book Now</Link>
                   </div>
                 </div>
               </div>

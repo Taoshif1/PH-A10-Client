@@ -11,24 +11,24 @@ import {
 import auth from "../firebase/firebase.config";
 import PropTypes from "prop-types";
 
-// ✅ Export the context directly
+
 export const AuthContext = createContext(null);
 
-// Custom hook for easy use
+//   Custom hook for easy use
 export const useAuth = () => useContext(AuthContext);
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // 🔹 Google Sign-in
+  //  Google Sign-in
   const googleSignIn = () => {
     setLoading(true);
     const provider = new GoogleAuthProvider();
     return signInWithPopup(auth, provider);
   };
 
-  // 🔹 Register with email/password
+  //  Register with email/password
   const registerUser = (email, password, name, photoURL) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password).then(
@@ -48,19 +48,19 @@ const AuthProvider = ({ children }) => {
     );
   };
 
-  // 🔹 Login with email/password
+  //  Login with email/password
   const loginUser = (email, password) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  // 🔹 Logout
+  //  Logout
   const logOut = () => {
     setLoading(true);
     return signOut(auth);
   };
 
-  // 🔹 Track auth state
+  //  Track auth state
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       console.log("Firebase Auth State Changed:", currentUser);

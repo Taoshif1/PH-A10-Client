@@ -4,7 +4,8 @@
    🚗 GARIWALA CUSTOM LIGHT THEME
    ============================== */
 @plugin "daisyui" {
-  themes: light --default;
+    name: "dark";
+    prefersdark: true;
 }
 
 @plugin "daisyui/theme" {
