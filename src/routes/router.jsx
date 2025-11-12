@@ -12,6 +12,7 @@ import MyBookings from "../pages/MyBookings";
 import BrowseCars from "../pages/BrowseCars";
 import BookCar from "../pages/BookCar";
 import CarDetails from "../pages/CarDetails";
+import ContactUs from "../pages/ContactUs";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
       {
         path: "/car/:id",
         element: <CarDetails />,
+      },
+      {
+        path: "/contact",
+        element: <ContactUs></ContactUs>
       },
     ],
   },

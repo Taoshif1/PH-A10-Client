@@ -52,6 +52,8 @@ const AddCar = () => {
     <div className="max-w-3xl mx-auto mt-10 p-6 bg-white shadow-md rounded-2xl">
       <h2 className="text-2xl font-bold mb-4 text-center text-primary">Add a New Car</h2>
       <form onSubmit={handleAddCar} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        {/* Car Name */}
         <input
           type="text"
           name="name"
@@ -61,24 +63,35 @@ const AddCar = () => {
           required
           className="border p-2 rounded"
         />
-        <input
-          type="text"
+
+        {/* Category Dropdown */}
+        <select
           name="category"
-          placeholder="Category (SUV, Sedan, etc)"
           value={car.category}
           onChange={handleChange}
           required
           className="border p-2 rounded"
-        />
+        >
+          <option value="" disabled>Select Category</option>
+          <option value="Sedan">Sedan</option>
+          <option value="SUV">SUV</option>
+          <option value="Hatchback">Hatchback</option>
+          <option value="Luxury">Luxury</option>
+          <option value="Electric">Electric</option>
+        </select>
+
+        {/* Price */}
         <input
           type="number"
           name="price"
-          placeholder="Price per day"
+          placeholder="Rent Price per day"
           value={car.price}
           onChange={handleChange}
           required
           className="border p-2 rounded"
         />
+
+        {/* Location */}
         <input
           type="text"
           name="location"
@@ -88,15 +101,35 @@ const AddCar = () => {
           required
           className="border p-2 rounded"
         />
+
+        {/* Image URL */}
         <input
           type="url"
           name="image"
-          placeholder="Image URL"
+          placeholder="Hosted Image URL"
           value={car.image}
           onChange={handleChange}
           required
           className="border p-2 rounded"
         />
+
+        {/* Provider Name (read-only) */}
+        <input
+          type="text"
+          value={user?.displayName || ""}
+          readOnly
+          className="border p-2 rounded bg-gray-100"
+        />
+
+        {/* Provider Email (read-only) */}
+        <input
+          type="email"
+          value={user?.email || ""}
+          readOnly
+          className="border p-2 rounded bg-gray-100"
+        />
+
+        {/* Description */}
         <textarea
           name="description"
           placeholder="Description"
@@ -106,6 +139,7 @@ const AddCar = () => {
           className="border p-2 rounded md:col-span-2"
         ></textarea>
 
+        {/* Submit Button */}
         <button
           type="submit"
           className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded md:col-span-2"

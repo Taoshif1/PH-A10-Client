@@ -138,14 +138,14 @@ const Dashboard = () => {
       {/* Quick Actions */}
       <div className="flex flex-wrap justify-center gap-6">
         <button
-          onClick={() => navigate("/mylistings")}
+          onClick={() => navigate("/my-listings")}
           className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
         >
           🚗 Manage My Listings
         </button>
 
         <button
-          onClick={() => navigate("/mybookings")}
+          onClick={() => navigate("/my-bookings")}
           className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition"
         >
           📅 View My Bookings

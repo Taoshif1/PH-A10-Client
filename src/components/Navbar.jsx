@@ -4,19 +4,46 @@ import { FaLaughBeam } from "react-icons/fa";
 import logo from "../assets/logo.png";
 import { useAuth } from "../context/AuthContext";
 import ThemeToggle from "./ThemeToggle";
+import {
+  FaHome,
+  FaCarSide,
+  FaPlusCircle,
+  FaListAlt,
+  FaCalendarCheck,
+  FaTachometerAlt,
+} from "react-icons/fa";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
 
   const navLinks = [
-    { name: "Home", path: "/" },
-    { name: "Browse Cars", path: "/browse-cars" },
-    { name: "Add Car", path: "/add-car", private: true },
-    { name: "My Listings", path: "/my-listings", private: true },
-    { name: "My Bookings", path: "/my-bookings", private: true },
-    { name: "Dashboard", path: "/dashboard", private: true },
+    { name: "Home", path: "/", icon: <FaHome /> },
+    { name: "Browse Cars", path: "/browse-cars", icon: <FaCarSide /> },
+    {
+      name: "Add Car",
+      path: "/add-car",
+      private: true,
+      icon: <FaPlusCircle />,
+    },
+    {
+      name: "My Listings",
+      path: "/my-listings",
+      private: true,
+      icon: <FaListAlt />,
+    },
+    {
+      name: "My Bookings",
+      path: "/my-bookings",
+      private: true,
+      icon: <FaCalendarCheck />,
+    },
+    {
+      name: "Dashboard",
+      path: "/dashboard",
+      private: true,
+      icon: <FaTachometerAlt />,
+    },
   ];
-
   const handleLogout = async () => {
     try {
       await logOut();
@@ -134,23 +161,64 @@ const Navbar = () => {
           {navLinks.map((link) => {
             if (link.private && !user) return null;
 
+            // For medium screens, hide Listings and Bookings separately
+            if (
+              (link.name === "My Listings" || link.name === "My Bookings") &&
+              window.innerWidth < 1024
+            )
+              return null;
+
             return (
               <li key={link.path}>
                 <NavLink
                   to={link.path}
                   className={({ isActive }) =>
-                    `nav-link px-4 py-2 rounded-md transition-all duration-300 ${
+                    `nav-link flex items-center gap-2 px-4 py-2 rounded-md transition-all duration-300 ${
                       isActive
                         ? "bg-blue-100 text-blue-700 font-semibold shadow-sm"
                         : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
                     }`
                   }
                 >
-                  {link.name}
+                  {link.icon} {link.name}
                 </NavLink>
               </li>
             );
           })}
+
+          {/* Dashboard dropdown for medium screens */}
+          {user && window.innerWidth < 1024 && (
+            <li tabIndex={0}>
+              <a className="flex items-center gap-2">
+                <FaTachometerAlt /> Dashboard
+                <svg
+                  className="fill-current ml-1 w-4 h-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M5.25 7.5L10 12.25 14.75 7.5H5.25z" />
+                </svg>
+              </a>
+              <ul className="p-2 bg-white shadow-lg rounded-box mt-1">
+                <li>
+                  <NavLink
+                    to="/my-listings"
+                    className="flex items-center gap-2"
+                  >
+                    <FaListAlt /> My Listings
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/my-bookings"
+                    className="flex items-center gap-2"
+                  >
+                    <FaCalendarCheck /> My Bookings
+                  </NavLink>
+                </li>
+              </ul>
+            </li>
+          )}
         </ul>
       </div>
 

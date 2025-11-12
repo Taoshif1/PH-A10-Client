@@ -1,34 +1,53 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaCarSide } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const BrowseCars = () => {
   const [cars, setCars] = useState([]);
   const navigate = useNavigate();
+  const alertShown = useRef(false); // ensures no duplicate alert
 
-  // Fetch available cars
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const res = await fetch("https://gariwala-server.vercel.app/cars"); // ✅ your live API
+        const res = await fetch("https://gariwala-server.vercel.app/cars");
         const data = await res.json();
 
-        // Some cars may have "image" not "images"
         const availableCars =
           data.cars?.filter((car) => car.status === "available") || [];
 
-        // Normalize image property
         const formattedCars = availableCars.map((car) => ({
           ...car,
-          images: car.images?.length ? car.images : [car.image], // fallback if only "image" exists
+          images: car.images?.length ? car.images : [car.image],
         }));
 
-        console.log("Available Cars ->", formattedCars);
+        if (formattedCars.length === 0 && !alertShown.current) {
+          alertShown.current = true;
+          Swal.fire({
+            icon: "info",
+            title: "No Cars Available",
+            text: "Currently, there are no available cars. Please check back later! 😢",
+            confirmButtonColor: "#3b82f6",
+            confirmButtonText: "Okay",
+          });
+        }
+
         setCars(formattedCars);
       } catch (err) {
         console.error("Failed to fetch cars:", err);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Failed to load cars. Please check your connection and try again!",
+          confirmButtonColor: "#3b82f6",
+          confirmButtonText: "Retry",
+        }).then((result) => {
+          if (result.isConfirmed) window.location.reload();
+        });
       }
     };
+
     fetchCars();
   }, []);
 
@@ -38,21 +57,17 @@ const BrowseCars = () => {
         <FaCarSide /> <span> Browse Cars </span>
       </h1>
       <p className="text-center font-bold text-gray-600 mb-8">
-        Showing <span className="font-semibold text-primary"> {cars.length}</span> available
-        car
+        Showing <span className="font-semibold text-primary">{cars.length}</span> available car
         {cars.length !== 1 ? "s" : ""}
       </p>
 
-      {cars.length === 0 ? (
-        <p className="text-center text-gray-500">No available cars found 😢</p>
-      ) : (
+      {cars.length > 0 && (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {cars.map((car) => (
             <div
               key={car._id}
               className="bg-white rounded-2xl shadow-lg overflow-hidden hover:scale-[1.03] transition duration-300"
             >
-              {/* Car Image */}
               <div className="relative">
                 <img
                   src={car.images?.[0] || "https://via.placeholder.com/400x250"}
@@ -64,7 +79,6 @@ const BrowseCars = () => {
                 </span>
               </div>
 
-              {/* Car Info */}
               <div className="p-4">
                 <h2 className="text-xl font-semibold mb-1">{car.name}</h2>
                 <p className="text-gray-600 text-sm mb-2">
@@ -72,12 +86,26 @@ const BrowseCars = () => {
                 </p>
                 <p className="font-medium text-lg mt-1">{car.price}$/day</p>
 
-                {/* Book Now Button */}
                 <button
-                  onClick={() => navigate(`/book/${car._id}`)}
+                  onClick={() => {
+                    Swal.fire({
+                      title: "Proceed to Car Details?",
+                      text: `You are about to view details for ${car.name}.`,
+                      icon: "info",
+                      showCancelButton: true,
+                      confirmButtonColor: "#3b82f6",
+                      cancelButtonColor: "#f87171",
+                      confirmButtonText: "Yes, take me there!",
+                      cancelButtonText: "Cancel",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        navigate(`/car/${car._id}`);
+                      }
+                    });
+                  }}
                   className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
                 >
-                  Book Now
+                  View Details
                 </button>
               </div>
             </div>
