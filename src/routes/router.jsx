@@ -6,6 +6,10 @@ import Dashboard from "../pages/Dashboard";
 import PrivateRoute from "./PrivateRoute";
 import ErrorPage from "../pages/ErrorPage";
 import Register from "../pages/Register";
+import AddCar from "../pages/AddCar";
+import MyListings from "../pages/MyListings";
+import MyBookings from "../pages/MyBookings";
+import BrowseCars from "../pages/BrowseCars";
 
 const router = createBrowserRouter([
   {
@@ -16,7 +20,11 @@ const router = createBrowserRouter([
       { 
         path: "/", 
         element: <Home></Home>
-        },
+      },
+      {
+        path: "/browse-cars",
+        element: <BrowseCars />,
+      },
       { 
         path: "/login", 
         element: <Login></Login> 
@@ -30,6 +38,30 @@ const router = createBrowserRouter([
         element: <PrivateRoute>
                     <Dashboard></Dashboard>
                 </PrivateRoute> 
+      },
+      {
+        path: "/add-car",
+        element: (
+          <PrivateRoute>
+            <AddCar></AddCar>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/my-listings",
+        element: (
+          <PrivateRoute>
+            <MyListings></MyListings>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/my-bookings",
+        element: (
+          <PrivateRoute>
+            <MyBookings></MyBookings>
+          </PrivateRoute>
+        ),
       },
 
     ],
