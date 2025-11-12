@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { FaLaughBeam } from "react-icons/fa";
 import logo from "../assets/logo.png";
 import { useAuth } from "../context/AuthContext";
 import ThemeToggle from "./ThemeToggle";
@@ -15,35 +14,23 @@ import {
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const navLinks = [
     { name: "Home", path: "/", icon: <FaHome /> },
     { name: "Browse Cars", path: "/browse-cars", icon: <FaCarSide /> },
-    {
-      name: "Add Car",
-      path: "/add-car",
-      private: true,
-      icon: <FaPlusCircle />,
-    },
-    {
-      name: "My Listings",
-      path: "/my-listings",
-      private: true,
-      icon: <FaListAlt />,
-    },
-    {
-      name: "My Bookings",
-      path: "/my-bookings",
-      private: true,
-      icon: <FaCalendarCheck />,
-    },
-    {
-      name: "Dashboard",
-      path: "/dashboard",
-      private: true,
-      icon: <FaTachometerAlt />,
-    },
+    { name: "Add Car", path: "/add-car", private: true, icon: <FaPlusCircle /> },
+    { name: "My Listings", path: "/my-listings", private: true, icon: <FaListAlt /> },
+    { name: "My Bookings", path: "/my-bookings", private: true, icon: <FaCalendarCheck /> },
+    { name: "Dashboard", path: "/dashboard", private: true, icon: <FaTachometerAlt /> },
   ];
+
   const handleLogout = async () => {
     try {
       await logOut();
@@ -57,7 +44,6 @@ const Navbar = () => {
     <div className="navbar bg-white shadow-lg sticky top-0 z-50 px-4 lg:px-8">
       {/* NAVBAR START - Logo & Mobile Menu */}
       <div className="navbar-start">
-        {/* Mobile Dropdown Menu */}
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
             <svg
@@ -67,31 +53,21 @@ const Navbar = () => {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
             </svg>
           </div>
-
-          {/* Mobile Dropdown Content */}
           <ul
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-white rounded-box z-50 mt-3 w-64 p-2 shadow-xl border border-gray-100"
           >
             {navLinks.map((link) => {
               if (link.private && !user) return null;
-
               return (
                 <li key={link.path}>
                   <NavLink
                     to={link.path}
                     className={({ isActive }) =>
-                      isActive
-                        ? "active bg-blue-50 text-blue-600 font-semibold"
-                        : ""
+                      isActive ? "active bg-blue-50 text-blue-600 font-semibold" : ""
                     }
                   >
                     {link.name}
@@ -100,35 +76,23 @@ const Navbar = () => {
               );
             })}
 
-            {/* User Menu in Mobile */}
             {user && (
               <>
                 <div className="divider my-2"></div>
                 <li className="menu-title">
-                  <span className="text-xs font-bold text-gray-500">
-                    Account
-                  </span>
+                  <span className="text-xs font-bold text-gray-500">Account</span>
                 </li>
                 <li>
                   <a className="flex items-center gap-2">
-                    <img
-                      src={user.photoURL}
-                      alt={user.displayName}
-                      className="w-6 h-6 rounded-full"
-                    />
+                    <img src={user.photoURL} alt={user.displayName} className="w-6 h-6 rounded-full" />
                     <div>
-                      <p className="font-semibold text-sm">
-                        {user.displayName}
-                      </p>
+                      <p className="font-semibold text-sm">{user.displayName}</p>
                       <p className="text-xs text-gray-500">{user.email}</p>
                     </div>
                   </a>
                 </li>
                 <li>
-                  <button
-                    onClick={handleLogout}
-                    className="text-red-600 font-semibold"
-                  >
+                  <button onClick={handleLogout} className="text-red-600 font-semibold">
                     Logout
                   </button>
                 </li>
@@ -137,37 +101,21 @@ const Navbar = () => {
           </ul>
         </div>
 
-        {/* Logo & Brand Name */}
+        {/* Logo */}
         <Link to="/" className="flex items-center gap-2 ml-2 mr-25">
-          <img
-            className="w-14 h-14 lg:w-20 lg:h-20"
-            src={logo}
-            alt="GARIWALA Logo"
-          />
-          <div className="">
-            <h1 className="navbar-brand text-xl lg:text-2xl font-bold">
-              GARIWALA
-            </h1>
-            <p className="text-xs text-gray-500 font-semibold">
-              Premium Car Rentals
-            </p>
+          <img className="w-14 h-14 lg:w-20 lg:h-20" src={logo} alt="GARIWALA Logo" />
+          <div>
+            <h1 className="navbar-brand text-xl lg:text-2xl font-bold">GARIWALA</h1>
+            <p className="text-xs text-gray-500 font-semibold">Premium Car Rentals</p>
           </div>
         </Link>
       </div>
 
       {/* NAVBAR CENTER - Desktop Menu */}
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 gap-2">
+      <div className="navbar-center hidden lg:flex overflow-x-auto">
+        <ul className="menu menu-horizontal px-1 gap-2 whitespace-nowrap">
           {navLinks.map((link) => {
             if (link.private && !user) return null;
-
-            // For medium screens, hide Listings and Bookings separately
-            if (
-              (link.name === "My Listings" || link.name === "My Bookings") &&
-              window.innerWidth < 1024
-            )
-              return null;
-
             return (
               <li key={link.path}>
                 <NavLink
@@ -185,60 +133,19 @@ const Navbar = () => {
               </li>
             );
           })}
-
-          {/* Dashboard dropdown for medium screens */}
-          {user && window.innerWidth < 1024 && (
-            <li tabIndex={0}>
-              <a className="flex items-center gap-2">
-                <FaTachometerAlt /> Dashboard
-                <svg
-                  className="fill-current ml-1 w-4 h-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                >
-                  <path d="M5.25 7.5L10 12.25 14.75 7.5H5.25z" />
-                </svg>
-              </a>
-              <ul className="p-2 bg-white shadow-lg rounded-box mt-1">
-                <li>
-                  <NavLink
-                    to="/my-listings"
-                    className="flex items-center gap-2"
-                  >
-                    <FaListAlt /> My Listings
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/my-bookings"
-                    className="flex items-center gap-2"
-                  >
-                    <FaCalendarCheck /> My Bookings
-                  </NavLink>
-                </li>
-              </ul>
-            </li>
-          )}
         </ul>
       </div>
 
-      {/* NAVBAR END - Login Button & ThemeToggle */}
-      <div className="navbar-end gap-3 ">
-        {/* ThemeToggle */}
+      {/* NAVBAR END */}
+      <div className="navbar-end gap-3">
         <ThemeToggle />
-
-        {/* Login Button or User Dropdown */}
         {!user ? (
           <Link to="/login">
             <button className="btn btn-primary">Login</button>
           </Link>
         ) : (
           <div className="dropdown dropdown-end">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle avatar"
-            >
+            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full ring ring-blue-500 ring-offset-2">
                 <img alt={user.displayName} src={user.photoURL} />
               </div>
@@ -247,31 +154,18 @@ const Navbar = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-white rounded-box z-50 mt-3 w-64 p-3 shadow-xl border border-gray-100"
             >
-              {/* User Info */}
               <li className="mb-2">
                 <div className="flex items-center gap-3 hover:bg-transparent cursor-default">
-                  <img
-                    src={user.photoURL}
-                    alt={user.displayName}
-                    className="w-12 h-12 rounded-full ring-2 ring-blue-500"
-                  />
+                  <img src={user.photoURL} alt={user.displayName} className="w-12 h-12 rounded-full ring-2 ring-blue-500" />
                   <div>
-                    <p className="font-bold text-gray-800">
-                      {user.displayName}
-                    </p>
+                    <p className="font-bold text-gray-800">{user.displayName}</p>
                     <p className="text-xs text-gray-500">{user.email}</p>
                   </div>
                 </div>
               </li>
-
               <div className="divider my-1"></div>
-
-              {/* Quick Actions */}
               <li>
-                <Link to="/my-listings" className="justify-between">
-                  My Listings
-                  <span className="badge badge-sm badge-primary">2</span>
-                </Link>
+                <Link to="/my-listings" className="justify-between">My Listings</Link>
               </li>
               <li>
                 <Link to="/my-bookings">My Bookings</Link>
@@ -279,16 +173,9 @@ const Navbar = () => {
               <li>
                 <Link to="/add-car">Add New Car</Link>
               </li>
-
               <div className="divider my-1"></div>
-
               <li>
-                <button
-                  onClick={handleLogout}
-                  className="text-red-600 font-semibold"
-                >
-                  Logout
-                </button>
+                <button onClick={handleLogout} className="text-red-600 font-semibold">Logout</button>
               </li>
             </ul>
           </div>
