@@ -362,8 +362,6 @@ https://your-app.netlify.app
 - ✅ XSS prevention
 - ✅ Secure API calls
 
-```
-
 ---
 
 ## 📊 Performance
