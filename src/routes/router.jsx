@@ -10,6 +10,7 @@ import AddCar from "../pages/AddCar";
 import MyListings from "../pages/MyListings";
 import MyBookings from "../pages/MyBookings";
 import BrowseCars from "../pages/BrowseCars";
+import BookCar from "../pages/BookCar";
 
 const router = createBrowserRouter([
   {
@@ -17,27 +18,29 @@ const router = createBrowserRouter([
     element: <App></App>,
     errorElement: <ErrorPage></ErrorPage>,
     children: [
-      { 
-        path: "/", 
-        element: <Home></Home>
+      {
+        path: "/",
+        element: <Home></Home>,
       },
       {
         path: "/browse-cars",
         element: <BrowseCars />,
       },
-      { 
-        path: "/login", 
-        element: <Login></Login> 
-    },
-    { 
-        path: "/register",  
-        element: <Register></Register>
+      {
+        path: "/login",
+        element: <Login></Login>,
       },
-      { 
-        path: "/dashboard", 
-        element: <PrivateRoute>
-                    <Dashboard></Dashboard>
-                </PrivateRoute> 
+      {
+        path: "/register",
+        element: <Register></Register>,
+      },
+      {
+        path: "/dashboard",
+        element: (
+          <PrivateRoute>
+            <Dashboard></Dashboard>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/add-car",
@@ -63,11 +66,16 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "/book/:id",
+        element: 
+          <PrivateRoute>
+            <BookCar />
+          </PrivateRoute>
+      },
 
     ],
-    
   },
-
 ]);
 
 export default router;

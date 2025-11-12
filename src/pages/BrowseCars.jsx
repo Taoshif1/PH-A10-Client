@@ -20,9 +20,7 @@ const BrowseCars = () => {
         // Normalize image property
         const formattedCars = availableCars.map((car) => ({
           ...car,
-          images: car.images?.length
-            ? car.images
-            : [car.image], // fallback if only "image" exists
+          images: car.images?.length ? car.images : [car.image], // fallback if only "image" exists
         }));
 
         console.log("Available Cars ->", formattedCars);
@@ -36,11 +34,12 @@ const BrowseCars = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold text-center mb-2 flex items-center justify-center gap-2">
-        <FaCarSide /> Browse Cars
+      <h1 className="text-3xl font-bold text-center mb-2 flex items-center justify-center gap-2 text-primary">
+        <FaCarSide /> <span> Browse Cars </span>
       </h1>
-      <p className="text-center text-gray-600 mb-8">
-        Showing <span className="font-semibold">{cars.length}</span> available car
+      <p className="text-center font-bold text-gray-600 mb-8">
+        Showing <span className="font-semibold text-primary"> {cars.length}</span> available
+        car
         {cars.length !== 1 ? "s" : ""}
       </p>
 
@@ -71,13 +70,11 @@ const BrowseCars = () => {
                 <p className="text-gray-600 text-sm mb-2">
                   {car.description?.slice(0, 60)}...
                 </p>
-                <p className="font-medium text-lg mt-1">
-                  ৳{car.price}/day
-                </p>
+                <p className="font-medium text-lg mt-1">{car.price}$/day</p>
 
                 {/* Book Now Button */}
                 <button
-                  onClick={() => navigate(`/my-bookings?id=${car._id}`)}
+                  onClick={() => navigate(`/book/${car._id}`)}
                   className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
                 >
                   Book Now

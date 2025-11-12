@@ -282,7 +282,7 @@ const Home = () => {
                   </div>
                   <div className="flex items-center text-gray-600">
                     <FaUser className="mr-2" />
-                    <span className="text-sm">{car.provider}</span>
+                    <span className="text-sm">{car.providerName}</span>
                   </div>
                 </div>
                 <div className="flex items-center justify-between pt-4 border-t">
@@ -290,7 +290,7 @@ const Home = () => {
                     <span className="text-3xl font-bold text-gradient">${car.price}</span>
                     <span className="text-gray-600">/day</span>
                   </div>
-                  <Link to={`/car-details/${car._id}`}>
+                  <Link to={`/car/${car._id}`}>
                     <button className="btn btn-primary btn-sm">
                       View Details
                     </button>
@@ -413,8 +413,8 @@ const Home = () => {
                   <h2 className="card-title">{car.name}</h2>
                   <p>{car.model} • {car.location}</p>
                   <div className="card-actions justify-end items-center">
-                    <span className="text-2xl font-bold text-gradient">${car.price}/day</span>
-                    <button className="btn btn-primary btn-sm">Book Now</button>
+                    <span className="text-2xl font-bold text-gradient">{car.price}$/day</span>
+                    <Link to='/error-page' className="btn btn-primary btn-sm">Book Now</Link>
                   </div>
                 </div>
               </div>

@@ -1,37 +1,34 @@
-import { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { FaLaughBeam } from 'react-icons/fa';
-import logo from '../assets/logo.png';
-import { useAuth } from '../context/AuthContext';
-
+import { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { FaLaughBeam } from "react-icons/fa";
+import logo from "../assets/logo.png";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
-  
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Browse Cars', path: '/browse-cars' },
-    { name: 'Add Car', path: '/add-car', private: true },
-    { name: 'My Listings', path: '/my-listings', private: true },
-    { name: 'My Bookings', path: '/my-bookings', private: true },
+    { name: "Home", path: "/" },
+    { name: "Browse Cars", path: "/browse-cars" },
+    { name: "Add Car", path: "/add-car", private: true },
+    { name: "My Listings", path: "/my-listings", private: true },
+    { name: "My Bookings", path: "/my-bookings", private: true },
+    { name: "Dashboard", path: "/dashboard", private: true },
   ];
 
   const handleLogout = async () => {
-  try {
-    await logOut();
-    console.log("User logged out!");
-  } catch (err) {
-    console.error("Logout failed:", err);
-  }
-};
+    try {
+      await logOut();
+      console.log("User logged out!");
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  };
 
   return (
     <div className="navbar bg-white shadow-lg sticky top-0 z-50 px-4 lg:px-8">
-      
       {/* NAVBAR START - Logo & Mobile Menu */}
       <div className="navbar-start">
-        
         {/* Mobile Dropdown Menu */}
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -50,7 +47,7 @@ const Navbar = () => {
               />
             </svg>
           </div>
-          
+
           {/* Mobile Dropdown Content */}
           <ul
             tabIndex={0}
@@ -58,13 +55,15 @@ const Navbar = () => {
           >
             {navLinks.map((link) => {
               if (link.private && !user) return null;
-              
+
               return (
                 <li key={link.path}>
                   <NavLink
                     to={link.path}
                     className={({ isActive }) =>
-                      isActive ? 'active bg-blue-50 text-blue-600 font-semibold' : ''
+                      isActive
+                        ? "active bg-blue-50 text-blue-600 font-semibold"
+                        : ""
                     }
                   >
                     {link.name}
@@ -72,25 +71,36 @@ const Navbar = () => {
                 </li>
               );
             })}
-            
+
             {/* User Menu in Mobile */}
             {user && (
               <>
                 <div className="divider my-2"></div>
                 <li className="menu-title">
-                  <span className="text-xs font-bold text-gray-500">Account</span>
+                  <span className="text-xs font-bold text-gray-500">
+                    Account
+                  </span>
                 </li>
                 <li>
                   <a className="flex items-center gap-2">
-                    <img src={user.photoURL} alt={user.displayName} className="w-6 h-6 rounded-full" />
+                    <img
+                      src={user.photoURL}
+                      alt={user.displayName}
+                      className="w-6 h-6 rounded-full"
+                    />
                     <div>
-                      <p className="font-semibold text-sm">{user.displayName}</p>
+                      <p className="font-semibold text-sm">
+                        {user.displayName}
+                      </p>
                       <p className="text-xs text-gray-500">{user.email}</p>
                     </div>
                   </a>
                 </li>
                 <li>
-                  <button onClick={handleLogout} className="text-red-600 font-semibold">
+                  <button
+                    onClick={handleLogout}
+                    className="text-red-600 font-semibold"
+                  >
                     Logout
                   </button>
                 </li>
@@ -100,13 +110,19 @@ const Navbar = () => {
         </div>
 
         {/* Logo & Brand Name */}
-        <Link to="/" className="flex items-center gap-2 ml-2">
-          <img className="w-16 h-16 lg:w-20 lg:h-20" src={logo} alt="GARIWALA Logo" />
+        <Link to="/" className="flex items-center gap-2 ml-2 mr-25">
+          <img
+            className="w-14 h-14 lg:w-20 lg:h-20"
+            src={logo}
+            alt="GARIWALA Logo"
+          />
           <div className="">
             <h1 className="navbar-brand text-xl lg:text-2xl font-bold">
-            GARIWALA
-          </h1>
-          <p className="text-xs text-gray-500 font-semibold">Premium Car Rentals</p>
+              GARIWALA
+            </h1>
+            <p className="text-xs text-gray-500 font-semibold">
+              Premium Car Rentals
+            </p>
           </div>
         </Link>
       </div>
@@ -116,13 +132,17 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1 gap-2">
           {navLinks.map((link) => {
             if (link.private && !user) return null;
-            
+
             return (
               <li key={link.path}>
                 <NavLink
                   to={link.path}
                   className={({ isActive }) =>
-                    `nav-link ${isActive ? 'bg-blue-50 text-blue-600 font-semibold' : ''}`
+                    `nav-link px-4 py-2 rounded-md transition-all duration-300 ${
+                      isActive
+                        ? "bg-blue-100 text-blue-700 font-semibold shadow-sm"
+                        : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
+                    }`
                   }
                 >
                   {link.name}
@@ -135,28 +155,26 @@ const Navbar = () => {
 
       {/* NAVBAR END - Login Button & Fun Icon */}
       <div className="navbar-end gap-3">
-        
         {/* Fun Icon */}
-        <FaLaughBeam 
-          className="fun-icon hidden sm:block" 
-          title="Feeling Lucky? 🎉" 
+        <FaLaughBeam
+          className="fun-icon hidden sm:block"
+          title="Feeling Lucky? 🎉"
         />
 
         {/* Login Button or User Dropdown */}
         {!user ? (
           <Link to="/login">
-            <button className="btn btn-primary">
-              Login
-            </button>
+            <button className="btn btn-primary">Login</button>
           </Link>
         ) : (
           <div className="dropdown dropdown-end">
-            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
               <div className="w-10 rounded-full ring ring-blue-500 ring-offset-2">
-                <img
-                  alt={user.displayName}
-                  src={user.photoURL}
-                />
+                <img alt={user.displayName} src={user.photoURL} />
               </div>
             </div>
             <ul
@@ -166,16 +184,22 @@ const Navbar = () => {
               {/* User Info */}
               <li className="mb-2">
                 <div className="flex items-center gap-3 hover:bg-transparent cursor-default">
-                  <img src={user.photoURL} alt={user.displayName} className="w-12 h-12 rounded-full ring-2 ring-blue-500" />
+                  <img
+                    src={user.photoURL}
+                    alt={user.displayName}
+                    className="w-12 h-12 rounded-full ring-2 ring-blue-500"
+                  />
                   <div>
-                    <p className="font-bold text-gray-800">{user.displayName}</p>
+                    <p className="font-bold text-gray-800">
+                      {user.displayName}
+                    </p>
                     <p className="text-xs text-gray-500">{user.email}</p>
                   </div>
                 </div>
               </li>
-              
+
               <div className="divider my-1"></div>
-              
+
               {/* Quick Actions */}
               <li>
                 <Link to="/my-listings" className="justify-between">
@@ -189,11 +213,14 @@ const Navbar = () => {
               <li>
                 <Link to="/add-car">Add New Car</Link>
               </li>
-              
+
               <div className="divider my-1"></div>
-              
+
               <li>
-                <button onClick={handleLogout} className="text-red-600 font-semibold">
+                <button
+                  onClick={handleLogout}
+                  className="text-red-600 font-semibold"
+                >
                   Logout
                 </button>
               </li>
