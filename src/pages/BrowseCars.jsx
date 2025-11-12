@@ -1,87 +1,107 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import toast from 'react-hot-toast';
-import CarCard from '../components/CarCard';
-import LoadingSpinner from '../components/LoadingSpinner';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const BrowseCars = () => {
-    const [cars, setCars] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+  const [cars, setCars] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("");
+  const [category, setCategory] = useState("all");
 
-    // TODO: Replace this with your actual Vercel Server URL from .env
-    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'YOUR_VERCEL_SERVER_LINK_HERE'; 
+  const baseURL = "https://gariwala-server-7ob70ngzp-taoshifs-projects.vercel.app"; 
+  // or http://localhost:3000 if testing locally
 
-    useEffect(() => {
-        // Fetch the full list of cars from the server
-        const fetchCars = async () => {
-            try {
-                // Assuming your server endpoint for all cars is /api/v1/cars
-                const response = await axios.get(`${API_BASE_URL}/api/v1/cars`);
-                
-                // Assuming your server returns the data in the format: { success: true, cars: [...] }
-                // Use a functional update to safely set the cars
-                setCars(response.data.cars || []);
-                setLoading(false);
-                
-            } catch (err) {
-                console.error("Failed to fetch car data:", err);
-                setError("Failed to load car data. Please check the server connection.");
-                toast.error("Error loading cars. Please check the network.");
-                setLoading(false);
-            }
-        };
+  useEffect(() => {
+    fetchCars();
+  }, [search, sort, category]);
 
-        fetchCars();
-    }, [API_BASE_URL]);
-
-    // Show loading state
-    if (loading) {
-        return <LoadingSpinner />;
+  const fetchCars = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get(`${baseURL}/cars`, {
+        params: { search, sort, category },
+      });
+      setCars(res.data.cars || []);
+    } catch (err) {
+      console.error("Error fetching cars:", err);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    // Show error state
-    if (error) {
-        return (
-            <div className="container mx-auto p-8 min-h-[60vh] flex justify-center items-center">
-                <div role="alert" className="alert alert-error max-w-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    <span>{error}</span>
-                </div>
-            </div>
-        );
-    }
+  return (
+    <div className="min-h-screen bg-base-200 py-10 px-4">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-3xl font-bold text-center mb-8">🚗 Browse Cars</h1>
 
-    return (
-        <div className="container mx-auto px-4 py-8">
-            <header className="text-center mb-12">
-                <h1 className="text-4xl font-extrabold text-gray-800">
-                    Explore Our Fleet
-                </h1>
-                <p className="text-xl text-gray-500 mt-2">
-                    {cars.length} vehicles available for rent in Bangladesh.
-                </p>
-            </header>
+        {/* Filters */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+          <input
+            type="text"
+            placeholder="Search cars..."
+            className="input input-bordered w-full md:w-1/3"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
 
-            {cars.length === 0 ? (
-                <div className="text-center p-12 bg-gray-100 rounded-xl max-w-xl mx-auto">
-                    <p className="text-2xl font-semibold text-gray-600">
-                        No Cars Found! 😟
-                    </p>
-                    <p className="text-gray-500 mt-2">
-                        Try adding a car to your server data.
-                    </p>
-                </div>
-            ) : (
-                // Car Grid
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {cars.map(car => (
-                        <CarCard key={car._id} car={car} />
-                    ))}
-                </div>
-            )}
+          <select
+            className="select select-bordered w-full md:w-1/4"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="all">All Categories</option>
+            <option value="SUV">SUV</option>
+            <option value="Sedan">Sedan</option>
+            <option value="Hatchback">Hatchback</option>
+            <option value="Luxury">Luxury</option>
+          </select>
+
+          <select
+            className="select select-bordered w-full md:w-1/4"
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+          >
+            <option value="">Sort by</option>
+            <option value="price-low">Price: Low → High</option>
+            <option value="price-high">Price: High → Low</option>
+            <option value="rating">Top Rated</option>
+          </select>
         </div>
-    );
+
+        {/* Cars Grid */}
+        {loading ? (
+          <div className="text-center py-10 text-lg font-semibold">Loading cars...</div>
+        ) : cars.length === 0 ? (
+          <div className="text-center py-10 text-lg font-semibold text-error">
+            No cars found 😢
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {cars.map((car) => (
+              <div key={car._id} className="card bg-base-100 shadow-xl">
+                <figure>
+                  <img
+                    src={car.image}
+                    alt={car.name}
+                    className="h-48 w-full object-cover"
+                  />
+                </figure>
+                <div className="card-body">
+                  <h2 className="card-title">{car.name}</h2>
+                  <p className="text-sm text-gray-600">{car.category}</p>
+                  <p className="font-semibold text-primary">${car.price} / day</p>
+                  <p className="text-yellow-500">⭐ {car.rating || 4.5}</p>
+                  <div className="card-actions justify-end mt-2">
+                    <button className="btn btn-primary btn-sm">Book Now</button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default BrowseCars;
